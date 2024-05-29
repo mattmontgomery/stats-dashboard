@@ -10,7 +10,6 @@ export default async function HomePage() {
       ? data.response?.[0].teams.home.id
       : data.response?.[0].teams.away.id;
   const opponent = await fetchOpponentStatistics(opponentId, "mls", 2024);
-  console.log(opponentId);
   return (
     <main className="min-h-screen flex-col p-24 grid grid-flow-row gap-16">
       <Dashboard

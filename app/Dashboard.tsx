@@ -24,7 +24,7 @@ export default function Dashboard(props: {
         {props.data.team}
       </div>
       <div className="grid grid-flow-row gap-4">
-        <div className="grid grid-cols-[1fr,3fr] divide-x-2 divide-slate-800">
+        <div className="grid grid-cols-[300px,3fr] divide-x-2 divide-slate-800">
           <div className="text-right pr-8">
             <strong>Next Match</strong>
           </div>
@@ -34,7 +34,7 @@ export default function Dashboard(props: {
             )}
           </div>
         </div>
-        <div className="grid grid-cols-[1fr,3fr] divide-x-2 divide-slate-800">
+        <div className="grid grid-cols-[300px,3fr] divide-x-2 divide-slate-800">
           <div className="text-right pr-8">
             <strong>Opponent Details</strong>
           </div>
@@ -87,26 +87,39 @@ export function OpponentStatistics(props: {
 }) {
   return (
     <div className="text-sm grid grid-flow-row gap-2">
+      <div className="underline underline-offset-4 decoration-slate-800 mb-2">
+        <strong>
+          {props.data.team.name} ({props.focus})
+        </strong>
+      </div>
       <div>
-        <div className="underline underline-offset-4 decoration-slate-800 mb-2">
-          <strong>
-            {props.data.team.name} ({props.focus})
-          </strong>
+        <strong>Record (W-D-L)</strong>: {props.data.fixtures.wins.total}-
+        {props.data.fixtures.draws.total}-{props.data.fixtures.loses.total}
+      </div>
+      <div>
+        <strong>Goals For ({props.focus})</strong>:{" "}
+        {props.data.goals.for.total[props.focus]}
+      </div>
+      <div>
+        <strong>Goals Against ({props.focus})</strong>:{" "}
+        {props.data.goals.against.total[props.focus]}
+      </div>
+      <HorizontalRule />
+      <div className="grid grid-flow-row grid-cols-2 gap-16">
+        <div>
+          <GoalsChart focus="for" goals={props.data.goals} />
         </div>
         <div>
-          <strong>Record (W-D-L)</strong>: {props.data.fixtures.wins.total}-
-          {props.data.fixtures.draws.total}-{props.data.fixtures.loses.total}
+          <GoalsChart focus="against" goals={props.data.goals} />
         </div>
         <div>
-          <strong>Goals For ({props.focus})</strong>:{" "}
-          {props.data.goals.for.total[props.focus]}
-        </div>
-        <div>
-          <strong>Goals Against ({props.focus})</strong>:{" "}
-          {props.data.goals.against.total[props.focus]}
+          <GoalsChart focus="difference" goals={props.data.goals} />
         </div>
       </div>
-      <GoalsChart goals={props.data.goals} />
     </div>
   );
+}
+
+function HorizontalRule() {
+  return <hr className="border-slate-800 border-t-2" />;
 }
